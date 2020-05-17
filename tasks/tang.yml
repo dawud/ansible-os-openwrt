@@ -1,9 +1,12 @@
 ---
 # Documentation:
+# https://www.fit.vut.cz/study/thesis-file/21160/21160.pdf
+# https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/security_hardening/index#configuring-automated-unlocking-of-encrypted-volumes-using-policy-based-decryption_security-hardening
 
 - include_tasks: helper_packages.yml
   loop:
     - {name: 'tang', state: 'present'}
+    - {name: 'xinetd', state: 'present'}
 
 # TODO: does not seem to work properly
 # also required:
