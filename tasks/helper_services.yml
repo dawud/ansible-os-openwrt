@@ -1,0 +1,10 @@
+---
+# Documnetation:
+# https://openwrt.org/docs/guide-user/base-system/managing_services
+# https://docs.ansible.com/ansible/latest/modules/openwrt_init_module.html
+
+- name: SERVICES | Enable {{ item.name }}
+  openwrt_init:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('started') }}"
+    enabled: "{{ item.enable | default('true') }}"

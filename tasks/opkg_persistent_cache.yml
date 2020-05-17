@@ -1,0 +1,15 @@
+---
+# Documentation:
+# https://openwrt.org/docs/guide-user/additional-software/opkg
+
+- name: Ensure opkg lists_dir exists in ext-root
+  file:
+    path: "/etc/opkg/opkg-lists"
+    state: directory
+    mode: 0755
+
+- name: Modify opkg configuration
+  lineinfile:
+    path: /etc/opkg.conf
+    regexp: '^lists_dir ext /var/opkg-lists$'
+    line: "lists_dir ext /etc/opkg/opkg-lists"

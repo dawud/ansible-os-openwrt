@@ -1,0 +1,56 @@
+---
+# Documentation:
+# https://openwrt.org/docs/guide-user/services/tftp.pxe-server
+# https://forum.openwrt.org/t/pxe-legacy-efi-co-existence/23856/3
+
+- include_tasks: helper_packages.yml
+  loop:
+    - {name: 'block-mount', state: 'present'}
+    - {name: 'kmod-usb-storage', state: 'present'}
+    - {name: 'usbutils', state: 'present'}
+    - {name: 'nfs-kernel-server', state: 'present'}
+    # - {name: 'tar', state: 'present'}
+
+# TODO: ensure mount point for tftp root exists
+# TODO: edit /etc/cobfig/fstab to add entry for tftp root and nfs
+# TODO: restart fstab ?
+# TODO: verify tftp root is mounted
+# TODO: create directory structure
+# TODO: retrieve syslinux files, 'tar' may be required to extract
+# TODO: modify dnsmaq config to enable tftp-server and rest of options
+#       using helper_uci
+# config match
+#         option networkid 'set:bios'
+#         option match '60,PXEClient:Arch:00000'
+# config match
+#         option networkid 'set:efi64'
+#         option match '60,PXEClient:Arch:00009'
+# config match
+#         option networkid 'set:efi64'
+#         option match '60,PXEClient:Arch:00007'
+# config userclass
+#         option networkid 'set:ipxe'
+#         option userclass 'iPXE'
+# config boot
+#         option filename         'tag:bios,tag:!ipxe,bios/undionly.kpxe'
+#         option serveraddress    '192.168.1.1'
+#         option servername       'router'
+# config boot
+#         option filename         'tag:bios,tag:ipxe,bios/ipxe/boot.ipxe'
+#         option serveraddress    '192.168.1.1'
+#         option servername       'router'
+# config boot
+#         option filename         'tag:efi64,tag:!ipxe,efi64/ipxe.efi'
+#         option serveraddress    '192.168.1.1'
+#         option servername       'router'
+# config boot
+#         option filename         'tag:efi64,tag:ipxe,efi64/ipxe/boot.ipxe'
+#         option serveraddress    '192.168.1.1'
+#         option servername       'router'
+# TODO: restart dnsmasq
+# TODO: configure NFS exports
+
+- include_tasks: helper_services.yml
+  loop:
+    - {name: 'portmap', state: 'started', enabled: 'true'}
+    - {name: 'nfsd', state: 'started', enabled: 'true'}

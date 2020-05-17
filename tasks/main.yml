@@ -1,0 +1,38 @@
+---
+# TODO:
+# - establish whether there is an ext-root overlay in place
+#   ansible_mounts.mount ....
+#   set fact openwrt_overlay_active (true|false)
+# - block:
+#     - name: configure ext-root
+#       ...
+#       when: not openwrt_overlay_active
+#
+# - block:
+#     - name: rest of the stuff
+#       ...
+#       when: openwrt_overlay_active | default('false')
+
+- import_tasks: opkg_persistent_cache.yml
+  tags:
+    - openwrt_opkg_persistent_cache
+
+- import_tasks: upgrade_packages.yml
+  tags:
+    - openwrt_upgrade_packages
+
+- import_tasks: sqm.yml
+  tags:
+    - openwrt_sqm
+
+- import_tasks: tang.yml
+  tags:
+    - openwrt_tang
+
+# - import_tasks: uci.yml
+#   tags:
+#     - openwrt_uci
+#
+# - import_tasks: services.yml
+#   tags:
+#     - openwrt_services

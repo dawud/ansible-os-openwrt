@@ -1,0 +1,12 @@
+---
+# Documnetation:
+# https://openwrt.org/docs/guide-user/base-system/uci
+# https://github.com/robinoburka/ansible-uci/blob/master/uci.py
+
+# FIXME: add list variable management
+- name: UCI | Set {{ package }} {{ section }} option {{ item.key }}
+  uci:
+    package: "{{ package }}"
+    section: "{{ section }}"
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"

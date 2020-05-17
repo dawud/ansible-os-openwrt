@@ -1,0 +1,35 @@
+---
+# Documentation:
+# https://openwrt.org/docs/guide-user/network/traffic-shaping/sqm
+# https://openwrt.org/docs/guide-user/network/traffic-shaping/sqm_configuration
+# https://openwrt.org/docs/guide-user/network/traffic-shaping/sqm-details
+
+- include_tasks: helper_packages.yml
+  loop:
+    - {name: 'luci-app-sqm', state: 'present'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: sqm
+    section: 'eth1'
+  loop:
+    - {key: 'enabled', value: '1'}
+    - {key: 'interface', value: 'eth0.2'}
+    - {key: 'download', value: '220000'}
+    - {key: 'upload', value: '220000'}
+    - {key: 'debug_logging', value: '0'}
+    - {key: 'verbosity', value: '5'}
+    - {key: 'qdisc', value: 'cake'}
+    - {key: 'script', value: 'piece_of_cake.qos'}
+    - {key: 'qdisc_advanced', value: '1'}
+    - {key: 'squash_dscp', value: '1'}
+    - {key: 'squash_ingress', value: '1'}
+    - {key: 'linklayer', value: 'ethernet'}
+    - {key: 'overhead', value: '44'}
+    - {key: 'ingress_ecn', value: 'ECN'}
+    - {key: 'egress_ecn', value: 'ECN'}
+    - {key: 'qdisc_really_really_advanced', value: '0'}
+
+- include_tasks: helper_services.yml
+  loop:
+    - {name: 'sqm', state: 'started', enabled: 'true'}

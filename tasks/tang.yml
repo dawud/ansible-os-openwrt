@@ -1,0 +1,14 @@
+---
+# Documentation:
+
+- include_tasks: helper_packages.yml
+  loop:
+    - {name: 'tang', state: 'present'}
+
+# TODO: does not seem to work properly
+# also required:
+# `/usr/libexec/tangd-keygen /usr/share/tang/db/`
+# `/usr/libexec/tangd-update /usr/share/tang/db/ /usr/share/tang/cache`
+- include_tasks: helper_services.yml
+  loop:
+    - {name: 'xinetd', state: 'started', enabled: 'true'}

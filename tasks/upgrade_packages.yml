@@ -1,0 +1,29 @@
+---
+# Documentation:
+# https://openwrt.org/docs/guide-user/additional-software/opkg
+
+# HACK: request installation of an already installed package
+# to force opkg cache update, alternative is to run a shell command
+# Additionally, maybe check for age of files under opkg_lists to avoid
+# retrieving data unnecessarily (there's no `stat` command available)
+# e.g. `date -r "/etc/opkg/opkg-lists/openwrt_base" +%s`
+- name: PACKAGES | Update cache
+  shell: "opkg update"
+  changed_when: false
+  # opkg:
+  #   name: "kernel"
+  #   state: present
+  #   update_cache: true
+
+- name: PACKAGES | Gather list of upgradable packages
+  shell: "opkg list-upgradable | awk '{print $1}'"
+  register: upgradable_packages
+  changed_when: false
+
+# helper_packages.yml is not used here to avoid 'force-maintainer' option
+# and be able to pass a list of packages
+# It is assumed that any deviation from maintainer config files is to be managed
+# from code
+- name: PACKAGES | Upgrade packages
+  shell: "opkg upgrade {{ upgradable_packages.stdout_lines | join(' ') }}"
+  when: upgradable_packages.stdout | length > 0

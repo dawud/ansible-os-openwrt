@@ -1,0 +1,11 @@
+---
+# Documentation:
+# https://openwrt.org/docs/guide-user/additional-software/opkg
+
+# FIXME: can it accept list of packages?
+- name: PACKAGES | Install {{ item.name }}
+  opkg:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    # FIXME: is this safe/idempotent?
+    force: maintainer
