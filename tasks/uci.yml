@@ -582,20 +582,6 @@
     key: delay_root
     value: '10'
 
-- name: UCI | Set upstream NTP servers
-  uci:
-    package: system
-    section: 'ntp'
-    key: 'enable_server'
-    value: "{{ openwrt_ntp_enable_servers | default(omit) }}"
-
-- name: UCI | Set upstream NTP servers
-  uci:
-    package: system
-    section: 'ntp'
-    key: 'server'
-    value: "{{ openwrt_ntp_servers | join(' ') }}"
-
 - name: UCI | Set ULA prefix
   uci:
     package: network

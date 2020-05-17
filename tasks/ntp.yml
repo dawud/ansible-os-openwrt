@@ -1,0 +1,14 @@
+---
+# Documentation:
+# https://openwrt.org/docs/guide-user/advanced/ntp_configuration
+# https://openwrt.org/docs/guide-user/services/ntp/client-server
+
+- name: Configure NTP service and upstream servers
+  include_tasks: helper_uci.yml
+  vars:
+    package: system
+    section: 'ntp'
+  loop:
+    # yamllint disable-line rule:line-length
+    - {key: 'enable_server', value: "{{ openwrt_ntp_enable_ntp_server | default('false') }}"}
+    - {key: 'server', value: "{{ openwrt_ntp_servers | join(' ') }}"}

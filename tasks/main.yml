@@ -21,6 +21,10 @@
   tags:
     - openwrt_upgrade_packages
 
+- import_tasks: ntp.yml
+  tags:
+    - openwrt_ntp
+
 - import_tasks: sqm.yml
   tags:
     - openwrt_sqm
