@@ -1,0 +1,34 @@
+---
+# Documentation:
+
+- include_tasks: helper_packages.yml
+  loop:
+    - {name: 'shadow', state: 'present'}
+    - {name: 'sudo', state: 'present'}
+
+- name: SYSADM | Ensure wheel group exists
+  group:
+    name: wheel
+    gid: 10
+    state: present
+
+- name: SYSADM | Ensure sysadm user exists
+  user:
+    name: sysadm
+    shell: /bin/bash
+    groups: wheel
+    append: true
+
+- name: SYSADM | Ensure authorised keys are in place
+  authorized_key:
+    user: sysadm
+    state: present
+    key: https://github.com/dawud.keys
+
+- name: SYSADM | Ensure sysadm sudo permissions are in place
+  lineinfile:
+    path: /etc/sudoers
+    regexp: "^%wheel "
+    insertafter: '^# %wheel ALL=(ALL) NOPASSWD: ALL'
+    line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+    state: present

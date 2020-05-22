@@ -33,6 +33,10 @@
   tags:
     - openwrt_tang
 
+- import_tasks: sysadm.yml
+  tags:
+    - openwrt_sysadm
+
 # - import_tasks: uci.yml
 #   tags:
 #     - openwrt_uci

@@ -14,7 +14,14 @@ None. The required packages are managed by the role.
 - From `defaults/main.yml`
 
 ```yaml
-TBC
+---
+openwrt_packages: []
+openwrt_ntp_servers:
+  - 0.europe.pool.ntp.org
+  - 1.europe.pool.ntp.org
+  - 2.europe.pool.ntp.org
+  - 3.europe.pool.ntp.org
+openwrt_ula_prefix: 'aaaa:1111:bbb::/48'
 ```
 
 - From `vars/main.yml`
@@ -33,10 +40,42 @@ Example of how to use this role:
 
 ```yaml
 ---
-- name: OpenWRT | Wireless freedom
+- name: OpenWRT | Wireless freedom | Bootstrap
   hosts: openwrt
   remote_user: root
   gather_facts: false
+  pre_tasks:
+
+    - name: BOOTSTRAP | Probe python installation
+      raw: command -v python3 || true
+      register: python_available
+      changed_when: false
+
+    - name: BOOTSTRAP | Probe python installation version
+      raw: python3 --version
+      register: python_version
+      when: "'python' in python_available.stdout"
+      changed_when: false
+
+    - name: BOOTSTRAP | Bootstrap an OpenWRT host without python installed
+      raw: opkg install python3
+      when: "'python' not in python_available.stdout"
+
+  tasks:
+
+    - name: BOOTSTRAP | Validate bootstrap by querying data
+      setup:
+
+    - name: BOOTSTRAP | Ensure access via non-root user
+      include_role:
+        name: ansible-os-openwrt
+        tasks_from: sysadm
+
+- name: OpenWRT | Wireless freedom
+  hosts: openwrt
+  remote_user: sysadm
+  become: true
+  gather_facts: true
   vars:
     openwrt_packages:
       - blkid
@@ -63,26 +102,11 @@ Example of how to use this role:
       - 1.europe.pool.ntp.org
       - 2.europe.pool.ntp.org
       - 3.europe.pool.ntp.org
-    openwrt_ula_prefix: 'aaaa:1111:bbb::/48'
-
-  pre_tasks:
-
-    - name: BOOTSTRAP | Probe python installation
-      raw: command -v python3 || true
-      register: python_available
-      changed_when: false
-
-    - name: BOOTSTRAP | Probe python installation version
-      raw: python3 --version
-      register: python_version
-      when: "'python' in python_available.stdout"
-      changed_when: false
-
-    - name: BOOTSTRAP | Bootstrap an OpenWRT host without python installed
-      raw: opkg install python3
-      when: "'python' not in python_available.stdout"
-
-    - setup:
+      - 0.es.pool.ntp.org
+      - 1.es.pool.ntp.org
+      - 2.es.pool.ntp.org
+      - 3.es.pool.ntp.org
+    openwrt_ula_prefix: 'fdee:2008:fd33::/48'
 
   roles:
     - ansible-os-openwrt
@@ -102,4 +126,4 @@ MIT
 
 ## Author Information
 
-[David Sastre Medina](d.sastre.medina@gmail.com)
+[David Sastre Medina](mailto:d.sastre.medina@gmail.com?subject=[GitHub]%20Ansible%20OpenWRT%20role)
