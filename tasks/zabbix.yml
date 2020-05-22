@@ -1,0 +1,16 @@
+---
+# Documentation:
+# https://www.zabbix.com/documentation/4.0/manual
+# https://openwrt.org/docs/guide-user/services/network_monitoring/zabbix
+
+- include_tasks: helper_packages.yml
+  loop:
+    - {name: 'zabbix-agentd', state: 'present'}
+    - {name: 'zabbix-extra-mac80211', state: 'present'}
+    - {name: 'zabbix-extra-network', state: 'present'}
+    - {name: 'zabbix-extra-wifi', state: 'present'}
+    - {name: 'zabbix-sender', state: 'present'}
+
+- include_tasks: helper_services.yml
+  loop:
+    - {name: 'zabbix_agentd', state: 'started', enabled: 'true'}
