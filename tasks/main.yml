@@ -44,11 +44,3 @@
 - import_tasks: zabbix.yml
   tags:
     - openwrt_zabbix
-
-# - import_tasks: uci.yml
-#   tags:
-#     - openwrt_uci
-#
-# - import_tasks: services.yml
-#   tags:
-#     - openwrt_services
