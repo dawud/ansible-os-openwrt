@@ -8,5 +8,6 @@
   uci:
     package: "{{ package }}"
     section: "{{ section }}"
+    index: "{{ intem.index | default(omit) }}"
     key: "{{ item.key }}"
     value: "{{ item.value }}"

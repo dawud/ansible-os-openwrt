@@ -2,6 +2,7 @@
 # Documentation:
 # https://www.zabbix.com/documentation/4.0/manual
 # https://openwrt.org/docs/guide-user/services/network_monitoring/zabbix
+# https://gitlab.com/i.am.stack/zabbix_openwrt
 
 - include_tasks: helper_packages.yml
   loop:

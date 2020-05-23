@@ -37,6 +37,10 @@
   tags:
     - openwrt_sysadm
 
+- import_tasks: snmpd.yml
+  tags:
+    - openwrt_snmpd
+
 - import_tasks: zabbix.yml
   tags:
     - openwrt_zabbix

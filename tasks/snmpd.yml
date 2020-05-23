@@ -1,0 +1,205 @@
+---
+# Documentation:
+# http://www.net-snmp.org/
+# https://openwrt.org/docs/guide-user/services/snmp/snmpd
+
+- include_tasks: helper_packages.yml
+  loop:
+    - {name: 'snmpd', state: 'present'}
+    - {name: 'snmp-mibs', state: 'present'}
+    - {name: 'snmp-utils', state: 'present'}
+    - {name: 'snmptrapd', state: 'present'}
+
+# FIXME: all of these really does not belong in the logic and needs to move to
+# a dedicated vars file
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: '@agent[0]'
+  loop:
+    - {key: 'agentaddress', value: 'UDP:161,UDP6:161'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: '@agentx[0]'
+  loop:
+    - {key: 'agentxsocket', value: '/var/run/agentx.sock'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'public'
+    # description: 'com2sec'
+  loop:
+    - {key: 'secname', value: 'ro'}
+    - {key: 'source', value: 'default'}
+    - {key: 'community', value: 'public'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'private'
+    # description: 'com2sec'
+  loop:
+    - {key: 'secname', value: 'rw'}
+    - {key: 'source', value: 'localhost'}
+    - {key: 'community', value: 'private'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'public6'
+    # description: 'com2sec6'
+  loop:
+    - {key: 'secname', value: 'ro'}
+    - {key: 'source', value: 'default'}
+    - {key: 'community', value: 'public'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'private6'
+    # description: 'com2sec6'
+  loop:
+    - {key: 'secname', value: 'rw'}
+    - {key: 'source', value: 'localhost'}
+    - {key: 'community', value: 'private'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'public_v1'
+    # description: 'group'
+  loop:
+    - {key: 'group', value: 'public'}
+    - {key: 'version', value: 'v1'}
+    - {key: 'secname', value: 'ro'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'public_v2c'
+    # description: 'group'
+  loop:
+    - {key: 'group', value: 'public'}
+    - {key: 'version', value: 'v2c'}
+    - {key: 'secname', value: 'ro'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'public_usm'
+    # description: 'group'
+  loop:
+    - {key: 'group', value: 'public'}
+    - {key: 'version', value: 'usm'}
+    - {key: 'secname', value: 'ro'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'private_v1'
+    # description: 'group'
+  loop:
+    - {key: 'group', value: 'private'}
+    - {key: 'version', value: 'v1'}
+    - {key: 'secname', value: 'rw'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'private_v2c'
+    # description: 'group'
+  loop:
+    - {key: 'group', value: 'private'}
+    - {key: 'version', value: 'v2c'}
+    - {key: 'secname', value: 'rw'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'private_usm'
+    # description: 'group'
+  loop:
+    - {key: 'group', value: 'private'}
+    - {key: 'version', value: 'usm'}
+    - {key: 'secname', value: 'rw'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'all'
+    # description: 'view'
+  loop:
+    - {key: 'viewname', value: 'all'}
+    - {key: 'type', value: 'included'}
+    - {key: 'oid', value: '.1'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'public_access'
+    # description: 'access'
+  loop:
+    - {key: 'group', value: 'public'}
+    - {key: 'context', value: 'none'}
+    - {key: 'version', value: 'any'}
+    - {key: 'level', value: 'noauth'}
+    - {key: 'prefix', value: 'exact'}
+    - {key: 'read', value: 'all'}
+    - {key: 'write', value: 'none'}
+    - {key: 'notify', value: 'none'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'private_access'
+    # description: 'access'
+  loop:
+    - {key: 'group', value: 'private'}
+    - {key: 'context', value: 'none'}
+    - {key: 'version', value: 'any'}
+    - {key: 'level', value: 'noauth'}
+    - {key: 'prefix', value: 'exact'}
+    - {key: 'read', value: 'all'}
+    - {key: 'write', value: 'all'}
+    - {key: 'notify', value: 'all'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: '@system[0]'
+  loop:
+    - {key: 'sysLocation', value: 'office'}
+    - {key: 'sysContact', value: 'bofh@example.com'}
+    - {key: 'sysName', value: '{{ ansible_fqdn }}'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: '@exec[0]'
+  loop:
+    - {key: 'name', value: 'filedescriptors'}
+    - {key: 'prog', value: '/bin/cat'}
+    - {key: 'args', value: '/proc/sys/fs/file-nr'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: '@engineid[0]'
+  loop:
+    - {key: 'engineidtype', value: '3'}
+    - {key: 'engineidnic', value: 'eth0'}
+
+- include_tasks: helper_uci.yml
+  vars:
+    package: snmpd
+    section: 'general'
+    # description: 'snmpd'
+  loop:
+    - {key: 'enabled', value: '1'}
+
+- include_tasks: helper_services.yml
+  loop:
+    - {name: 'snmpd', state: 'started', enabled: 'true'}
