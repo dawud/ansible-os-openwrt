@@ -1,5 +1,4 @@
 ---
-openwrt_packages: []
 openwrt_ntp_servers:
   - 0.europe.pool.ntp.org
   - 1.europe.pool.ntp.org

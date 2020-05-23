@@ -1,6 +1,5 @@
 ---
-# TODO: consume `uci export` as vars
-
+# FIXME: catch-all until this is further split into specific tasks
 - name: UCI | Set fstab options
   uci:
     package: fstab

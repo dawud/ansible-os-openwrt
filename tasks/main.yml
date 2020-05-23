@@ -21,6 +21,17 @@
   tags:
     - openwrt_upgrade_packages
 
+# FIXME: catch-all until this is further split into specific tasks
+# ----------------------------------------------------------------
+- import_tasks: utils.yml
+  tags:
+    - openwrt_utils
+
+- import_tasks: uci.yml
+  tags:
+    - openwrt_uci
+# ----------------------------------------------------------------
+
 - import_tasks: ntp.yml
   tags:
     - openwrt_ntp

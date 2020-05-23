@@ -15,7 +15,6 @@ None. The required packages are managed by the role.
 
 ```yaml
 ---
-openwrt_packages: []
 openwrt_ntp_servers:
   - 0.europe.pool.ntp.org
   - 1.europe.pool.ntp.org
@@ -77,26 +76,6 @@ Example of how to use this role:
   become: true
   gather_facts: true
   vars:
-    openwrt_packages:
-      - blkid
-      - block-mount
-      - diffutils
-      - e2fsprogs
-      - ethtool
-      - fdisk
-      - htop
-      - iftop
-      - ip-full
-      - ipset
-      - kmod-fs-ext4
-      - kmod-macsec
-      - kmod-usb-ohci
-      - kmod-usb-storage
-      - kmod-usb-uhci
-      - less-wide
-      - luci-mod-rpc
-      - python3
-      - zoneinfo-europe
     openwrt_ntp_servers:
       - 0.europe.pool.ntp.org
       - 1.europe.pool.ntp.org

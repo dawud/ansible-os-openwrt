@@ -1,0 +1,24 @@
+---
+# FIXME: catch-all until this is further split into specific tasks
+- include_tasks: helper_packages.yml
+  loop:
+    - {name: 'luci-app-sqm', state: 'present'}
+    - {name: 'blkid', state: 'present'}
+    - {name: 'block-mount', state: 'present'}
+    - {name: 'diffutils', state: 'present'}
+    - {name: 'e2fsprogs', state: 'present'}
+    - {name: 'ethtool', state: 'present'}
+    - {name: 'fdisk', state: 'present'}
+    - {name: 'htop', state: 'present'}
+    - {name: 'iftop', state: 'present'}
+    - {name: 'ip-full', state: 'present'}
+    - {name: 'ipset', state: 'present'}
+    - {name: 'kmod-fs-ext4', state: 'present'}
+    - {name: 'kmod-macsec', state: 'present'}
+    - {name: 'kmod-usb-ohci', state: 'present'}
+    - {name: 'kmod-usb-storage', state: 'present'}
+    - {name: 'kmod-usb-uhci', state: 'present'}
+    - {name: 'less-wide', state: 'present'}
+    - {name: 'luci-mod-rpc', state: 'present'}
+    - {name: 'python3', state: 'present'}
+    - {name: 'zoneinfo-europe', state: 'present'}

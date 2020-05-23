@@ -1,5 +1,6 @@
 ---
 # Documentation:
+# https://openwrt.org/docs/guide-user/security/secure.access
 
 - include_tasks: helper_packages.yml
   loop:
